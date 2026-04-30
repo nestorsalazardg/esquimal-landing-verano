@@ -199,22 +199,39 @@
       transition: background var(--transition-med), border-color var(--transition-med), box-shadow var(--transition-med);
     }
 
-    /* Over the hero: transparent, white text */
-    .nav:not(.scrolled) .nav-logo,
-    .nav:not(.scrolled) .nav-links a,
-    .nav:not(.scrolled) .nav-icon {
+    /* Estado por defecto: texto oscuro (navy) sobre fondo claro */
+    .nav-logo,
+    .nav-links a,
+    .nav-icon {
+      color: var(--text-primary);
+    }
+
+    .nav-hamburger span {
+      background: var(--text-primary);
+    }
+
+    .cart-badge {
+      background: var(--accent-navy);
       color: #FFFFFF;
     }
 
-    .nav:not(.scrolled) .nav-hamburger span {
+    /* Solo cuando está sobre el hero (clase .nav-hero): texto blanco */
+    .nav.nav-hero .nav-logo,
+    .nav.nav-hero .nav-links a,
+    .nav.nav-hero .nav-icon {
+      color: #FFFFFF;
+    }
+
+    .nav.nav-hero .nav-hamburger span {
       background: #FFFFFF;
     }
 
-    .nav:not(.scrolled) .cart-badge {
+    .nav.nav-hero .cart-badge {
       background: rgba(255,255,255,0.9);
       color: var(--text-primary);
     }
 
+    /* Al hacer scroll: fondo glassmorphism */
     .nav.scrolled {
       background: var(--glass-bg);
       backdrop-filter: blur(20px) saturate(180%);
@@ -1651,17 +1668,31 @@
 
     // ---- NAV SCROLL EFFECT ----
     const nav = document.getElementById('mainNav');
-    let lastScroll = 0;
+    const heroSection = document.querySelector('.hero');
 
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.scrollY;
-      if (currentScroll > 40) {
+    function updateNav() {
+      const scrollY = window.scrollY;
+      const heroBottom = heroSection ? heroSection.offsetTop + heroSection.offsetHeight : 0;
+
+      // Fondo glassmorphism cuando el usuario bajó más de 40px
+      if (scrollY > 40) {
         nav.classList.add('scrolled');
       } else {
         nav.classList.remove('scrolled');
       }
-      lastScroll = currentScroll;
-    }, { passive: true });
+
+      // Texto blanco solo mientras el nav está sobre el hero
+      if (scrollY < heroBottom - nav.offsetHeight) {
+        nav.classList.add('nav-hero');
+      } else {
+        nav.classList.remove('nav-hero');
+      }
+    }
+
+    // Inicializar estado correcto al cargar (sin esperar el primer scroll)
+    updateNav();
+
+    window.addEventListener('scroll', updateNav, { passive: true });
 
     // ---- MOBILE MENU ----
     const hamburger = document.getElementById('navHamburger');
