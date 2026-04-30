@@ -429,16 +429,12 @@
       transition: opacity 0.8s ease;
     }
 
-    /* YouTube iframe generado por la API — escalar a cover */
+    /* YouTube iframe — tamaño y posición calculados por JS en resizeYTPlayer()
+       El CSS solo define position y apariencia; las dimensiones las pone JS. */
     .hero-video-wrapper iframe {
       position: absolute;
       top: 50%;
       left: 50%;
-      /* Forzar aspect ratio 16:9 cubriendo el contenedor en cualquier tamaño */
-      width: max(100%, calc(100% * 16 / 9 * (100% / 100%)));
-      height: max(100%, calc(100% * 9 / 16));
-      min-width: calc(177.78vh);   /* 100vh * 16/9 */
-      min-height: calc(56.25vw);   /* 100vw * 9/16 */
       transform: translate(-50%, -50%);
       border: none;
       pointer-events: none;
@@ -1650,46 +1646,69 @@
     var ytPlayer;
 
     function showVideoFallback() {
-      // Oculta el wrapper del video y deja visible solo la imagen de fondo
       var wrapper = document.querySelector('.hero-video-wrapper');
       if (wrapper) wrapper.style.display = 'none';
+    }
+
+    // Calcula el tamaño exacto del iframe para que cubra el contenedor
+    // como si fuera object-fit: cover, midiendo el contenedor real en px.
+    function resizeYTPlayer() {
+      var container = document.getElementById('ytPlayer');
+      if (!container) return;
+      var iframe = container.querySelector('iframe');
+      if (!iframe) return;
+
+      var W = container.offsetWidth;   // ancho real del contenedor en px
+      var H = container.offsetHeight;  // alto real del contenedor en px
+
+      // El video es 16:9. Calculamos qué dimensión anclar para cubrir todo.
+      var iframeW, iframeH;
+      if (W / H > 16 / 9) {
+        // El contenedor es más ancho que 16:9 → anclar al ancho
+        iframeW = W;
+        iframeH = W * 9 / 16;
+      } else {
+        // El contenedor es más alto que 16:9 → anclar a la altura
+        iframeH = H;
+        iframeW = H * 16 / 9;
+      }
+
+      // Añadir 20% extra para cubrir las barras de UI de YouTube
+      // que aparecen en los bordes superior e inferior del iframe
+      iframeW = iframeW * 1.2;
+      iframeH = iframeH * 1.2;
+
+      iframe.style.width  = iframeW + 'px';
+      iframe.style.height = iframeH + 'px';
     }
 
     function onYouTubeIframeAPIReady() {
       ytPlayer = new YT.Player('ytPlayer', {
         videoId: 'GCMZEAN60sI',
         playerVars: {
-          autoplay:        1,
-          mute:            1,
-          loop:            1,
-          playlist:        'GCMZEAN60sI', // necesario para que loop funcione
-          controls:        0,
-          showinfo:        0,
-          rel:             0,
-          modestbranding:  1,
-          iv_load_policy:  3,
-          playsinline:     1,
-          disablekb:       1,
-          fs:              0
+          autoplay:       1,
+          mute:           1,
+          loop:           1,
+          playlist:       'GCMZEAN60sI',
+          controls:       0,
+          showinfo:       0,
+          rel:            0,
+          modestbranding: 1,
+          iv_load_policy: 3,
+          playsinline:    1,
+          disablekb:      1,
+          fs:             0
         },
         events: {
-          // onReady: el iframe existe y el video está listo para reproducirse.
-          // Aquí es el momento seguro para hacerlo visible con fade-in.
           onReady: function(e) {
             e.target.mute();
             e.target.playVideo();
-            // Fade-in suave: el CSS ya tiene opacity:0 + transition:0.8s
+            // Calcular tamaño correcto antes de hacer visible el iframe
+            resizeYTPlayer();
             document.getElementById('ytPlayer').style.opacity = '1';
           },
-
-          // onStateChange: detectar si el video nunca arrancó (estado -1
-          // significa "sin iniciar"). Si después de que el player está listo
-          // el estado sigue en -1, mostramos el fallback.
           onStateChange: function(e) {
-            // YT.PlayerState.PLAYING = 1 → video corriendo, todo bien
-            // YT.PlayerState.UNSTARTED = -1 → nunca arrancó
             if (e.data === YT.PlayerState.UNSTARTED) {
-              // Dar 3 segundos más de gracia antes de rendirnos
               setTimeout(function() {
                 if (ytPlayer && ytPlayer.getPlayerState() === YT.PlayerState.UNSTARTED) {
                   showVideoFallback();
@@ -1697,16 +1716,15 @@
               }, 3000);
             }
           },
-
-          // onError: error real de YouTube (video privado, no disponible, etc.)
           onError: function() {
             showVideoFallback();
           }
         }
       });
     }
-    // NOTA: Se eliminó el setTimeout ciego de 4s que ocultaba el wrapper
-    // antes de que el video terminara de cargar.
+
+    // Recalcular tamaño del iframe en cada resize de ventana
+    window.addEventListener('resize', resizeYTPlayer, { passive: true });
 
     // ---- NAV SCROLL EFFECT ----
     const nav = document.getElementById('mainNav');
