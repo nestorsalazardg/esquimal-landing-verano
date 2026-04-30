@@ -4,6 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Esquimal - Verano 2026 | Respira el Verano</title>
+
+  <!-- ================================================
+       META PIXEL — Reemplaza TU_PIXEL_ID con tu ID real
+       ================================================ -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'TU_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=TU_PIXEL_ID&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- FIN META PIXEL -->
+
+  <!-- ================================================
+       GOOGLE ANALYTICS 4 — Reemplaza TU_GA4_ID con tu ID real (formato G-XXXXXXXXXX)
+       ================================================ -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=TU_GA4_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'TU_GA4_ID');
+  </script>
+  <!-- FIN GA4 -->
   <meta name="description" content="Descubre la coleccion de verano 2026 de Esquimal, Cookify y Real Textil. Ropa de cama premium, ventiladores de diseno y articulos de cocina.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1195,7 +1228,8 @@
       <div class="hero-content">
         <h1 class="hero-title">Respira el Verano</h1>
         <p class="hero-desc">Descubre la coleccion perfecta para dias mas frescos y noches mas ligeras.</p>
-        <a href="#esquimal" class="btn-hero">
+        <a href="#esquimal" class="btn-hero"
+           onclick="fbq('track','ViewContent',{content_name:'Hero - Descubrir Coleccion',content_category:'Landing Hero'}); gtag('event','view_item_list',{item_list_name:'Hero CTA'});">
           Descubrir Coleccion
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="m9 18 6-6-6-6"/>
@@ -1236,7 +1270,8 @@
               <span class="product-name">Sabanas de Algodon Premium</span>
               <div class="product-bottom">
                 <span class="product-price">$79.99</span>
-                <a href="#" class="btn-primary">Comprar</a>
+                <a href="#" class="btn-primary"
+                   onclick="fbq('track','AddToCart',{content_name:'Sabanas de Algodon Premium',content_category:'Ropa de Cama',value:79.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:79.99,items:[{item_name:'Sabanas de Algodon Premium',item_category:'Ropa de Cama',price:79.99}]});">Comprar</a>
               </div>
             </div>
           </div>
@@ -1251,7 +1286,8 @@
               <span class="product-name">Edredon Ligero de Verano</span>
               <div class="product-bottom">
                 <span class="product-price">$129.99</span>
-                <a href="#" class="btn-primary">Comprar</a>
+                <a href="#" class="btn-primary"
+                   onclick="fbq('track','AddToCart',{content_name:'Edredon Ligero de Verano',content_category:'Ropa de Cama',value:129.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:129.99,items:[{item_name:'Edredon Ligero de Verano',item_category:'Ropa de Cama',price:129.99}]});">Comprar</a>
               </div>
             </div>
           </div>
@@ -1265,7 +1301,8 @@
               <span class="product-name">Almohada de Bambu Fresca</span>
               <div class="product-bottom">
                 <span class="product-price">$49.99</span>
-                <a href="#" class="btn-primary">Comprar</a>
+                <a href="#" class="btn-primary"
+                   onclick="fbq('track','AddToCart',{content_name:'Almohada de Bambu Fresca',content_category:'Ropa de Cama',value:49.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:49.99,items:[{item_name:'Almohada de Bambu Fresca',item_category:'Ropa de Cama',price:49.99}]});">Comprar</a>
               </div>
             </div>
           </div>
@@ -1279,7 +1316,8 @@
               <span class="product-name">Cobertor Ultraligero</span>
               <div class="product-bottom">
                 <span class="product-price">$89.99</span>
-                <a href="#" class="btn-primary">Comprar</a>
+                <a href="#" class="btn-primary"
+                   onclick="fbq('track','AddToCart',{content_name:'Cobertor Ultraligero',content_category:'Ropa de Cama',value:89.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:89.99,items:[{item_name:'Cobertor Ultraligero',item_category:'Ropa de Cama',price:89.99}]});">Comprar</a>
               </div>
             </div>
           </div>
@@ -1293,7 +1331,8 @@
               <span class="product-name">Set Fundas Decorativas</span>
               <div class="product-bottom">
                 <span class="product-price">$39.99</span>
-                <a href="#" class="btn-primary">Comprar</a>
+                <a href="#" class="btn-primary"
+                   onclick="fbq('track','AddToCart',{content_name:'Set Fundas Decorativas',content_category:'Ropa de Cama',value:39.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:39.99,items:[{item_name:'Set Fundas Decorativas',item_category:'Ropa de Cama',price:39.99}]});">Comprar</a>
               </div>
             </div>
           </div>
@@ -1307,7 +1346,8 @@
               <span class="product-name">Protector de Colchon Cool</span>
               <div class="product-bottom">
                 <span class="product-price">$59.99</span>
-                <a href="#" class="btn-primary">Comprar</a>
+                <a href="#" class="btn-primary"
+                   onclick="fbq('track','AddToCart',{content_name:'Protector de Colchon Cool',content_category:'Ropa de Cama',value:59.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:59.99,items:[{item_name:'Protector de Colchon Cool',item_category:'Ropa de Cama',price:59.99}]});">Comprar</a>
               </div>
             </div>
           </div>
@@ -1406,7 +1446,8 @@
           <div class="cookify-info">
             <span class="cookify-name">Parrillas & Asadores</span>
             <span class="cookify-desc">Hierro fundido de alta durabilidad para las mejores parrilladas de verano. Diseno profesional para resultados excepcionales.</span>
-            <a href="#" class="btn-primary btn-arrow">Explorar</a>
+            <a href="#" class="btn-primary btn-arrow"
+               onclick="fbq('track','ViewContent',{content_name:'Cookify - Parrillas y Asadores',content_category:'Cookify'}); gtag('event','view_item',{items:[{item_name:'Parrillas y Asadores',item_category:'Cookify'}]});">Explorar</a>
           </div>
         </div>
 
@@ -1419,7 +1460,8 @@
             <span class="cookify-sub">Utensilios Frescos</span>
             <span class="cookify-name">Todo lo que Necesitas</span>
             <span class="cookify-desc">Completa tu cocina de verano con nuestra seleccion curada de ralladores, cuchillos y utensilios premium.</span>
-            <a href="#" class="btn-outline btn-arrow">Ver Articulos de Cocina</a>
+            <a href="#" class="btn-outline btn-arrow"
+               onclick="fbq('track','ViewContent',{content_name:'Cookify - Utensilios',content_category:'Cookify'}); gtag('event','view_item_list',{item_list_name:'Cookify Utensilios'});">Ver Articulos de Cocina</a>
           </div>
         </div>
       </div>
@@ -1448,7 +1490,8 @@
           <div class="realtextil-info">
             <span class="realtextil-name">Textiles para el Hogar</span>
             <span class="realtextil-desc">Calidad excepcional en cada fibra. Nuestros textiles combinan diseno contemporaneo con materiales de primera clase, al alcance de todos.</span>
-            <a href="#" class="btn-primary btn-arrow">Descubrir Real Textil</a>
+            <a href="#" class="btn-primary btn-arrow"
+               onclick="fbq('track','ViewContent',{content_name:'Real Textil - Textiles para el Hogar',content_category:'Real Textil'}); gtag('event','view_item',{items:[{item_name:'Textiles para el Hogar',item_category:'Real Textil'}]});">Descubrir Real Textil</a>
           </div>
         </div>
 
@@ -1460,7 +1503,8 @@
           <div class="realtextil-info">
             <span class="realtextil-name">Coleccion Lino</span>
             <span class="realtextil-desc">Frescura natural y elegancia atemporal. Cada pieza esta disenada para transformar tu espacio con un estilo artesanal unico.</span>
-            <a href="#" class="btn-outline btn-arrow">Ver Coleccion</a>
+            <a href="#" class="btn-outline btn-arrow"
+               onclick="fbq('track','ViewContent',{content_name:'Real Textil - Coleccion Lino',content_category:'Real Textil'}); gtag('event','view_item_list',{item_list_name:'Real Textil Coleccion Lino'});">Ver Coleccion</a>
           </div>
         </div>
       </div>
