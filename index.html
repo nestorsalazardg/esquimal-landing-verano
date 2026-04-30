@@ -429,13 +429,12 @@
       transition: opacity 0.8s ease;
     }
 
-    /* YouTube iframe — tamaño y posición calculados por JS en resizeYTPlayer()
-       El CSS solo define position y apariencia; las dimensiones las pone JS. */
+    /* YouTube iframe — tamaño y posición calculados 100% por JS.
+       NO usamos top/left/transform aquí porque overflow:hidden en el padre
+       hace que translate(-50%,-50%) calcule mal el desplazamiento.
+       JS posiciona con coordenadas negativas exactas. */
     .hero-video-wrapper iframe {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       border: none;
       pointer-events: none;
     }
@@ -1650,36 +1649,38 @@
       if (wrapper) wrapper.style.display = 'none';
     }
 
-    // Calcula el tamaño exacto del iframe para que cubra el contenedor
-    // como si fuera object-fit: cover, midiendo el contenedor real en px.
+    // Calcula el tamaño exacto del iframe para cubrir el contenedor
+    // como object-fit: cover, y lo centra con coordenadas negativas exactas
+    // (sin transform, que falla cuando el padre tiene overflow:hidden).
     function resizeYTPlayer() {
       var container = document.getElementById('ytPlayer');
       if (!container) return;
       var iframe = container.querySelector('iframe');
       if (!iframe) return;
 
-      var W = container.offsetWidth;   // ancho real del contenedor en px
-      var H = container.offsetHeight;  // alto real del contenedor en px
+      var W = container.offsetWidth;
+      var H = container.offsetHeight;
 
-      // El video es 16:9. Calculamos qué dimensión anclar para cubrir todo.
       var iframeW, iframeH;
+
       if (W / H > 16 / 9) {
-        // El contenedor es más ancho que 16:9 → anclar al ancho
+        // Contenedor más ancho que 16:9 → anclar al ancho
         iframeW = W;
-        iframeH = W * 9 / 16;
+        iframeH = Math.round(W * 9 / 16);
       } else {
-        // El contenedor es más alto que 16:9 → anclar a la altura
+        // Contenedor más alto que 16:9 → anclar a la altura
         iframeH = H;
-        iframeW = H * 16 / 9;
+        iframeW = Math.round(H * 16 / 9);
       }
 
-      // Añadir 20% extra para cubrir las barras de UI de YouTube
-      // que aparecen en los bordes superior e inferior del iframe
-      iframeW = iframeW * 1.2;
-      iframeH = iframeH * 1.2;
+      // Centrar con top/left negativos exactos — sin transform
+      var top  = -Math.round((iframeH - H) / 2);
+      var left = -Math.round((iframeW - W) / 2);
 
       iframe.style.width  = iframeW + 'px';
       iframe.style.height = iframeH + 'px';
+      iframe.style.top    = top  + 'px';
+      iframe.style.left   = left + 'px';
     }
 
     function onYouTubeIframeAPIReady() {
