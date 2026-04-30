@@ -240,6 +240,23 @@
       box-shadow: 0 1px 20px rgba(27,33,56,0.05);
     }
 
+    /* Cuando el nav está sobre el hero-card con imagen:
+       texto blanco + gradiente oscuro sutil para legibilidad.
+       Esta regla va DESPUÉS de .nav.scrolled para ganar en especificidad
+       cuando ambas clases coexisten (scroll dentro del hero). */
+    .nav.nav-hero,
+    .nav.nav-hero.scrolled {
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.30) 0%,
+        rgba(0, 0, 0, 0.0) 100%
+      );
+      border-bottom: none;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
     .nav-inner {
       display: flex;
       align-items: center;
@@ -1668,28 +1685,40 @@
 
     // ---- NAV SCROLL EFFECT ----
     const nav = document.getElementById('mainNav');
-    const heroSection = document.querySelector('.hero');
+    // Medimos desde .hero-card (el elemento con la imagen/video),
+    // NO desde .hero (que incluye el padding superior crema).
+    const heroCard = document.querySelector('.hero-card');
 
     function updateNav() {
       const scrollY = window.scrollY;
-      const heroBottom = heroSection ? heroSection.offsetTop + heroSection.offsetHeight : 0;
+      const navH = nav.offsetHeight;
 
-      // Fondo glassmorphism cuando el usuario bajó más de 40px
-      if (scrollY > 40) {
+      if (heroCard) {
+        // Posición absoluta del top e inferior del hero-card
+        const cardTop    = heroCard.getBoundingClientRect().top + scrollY;
+        const cardBottom = cardTop + heroCard.offsetHeight;
+
+        // El nav está visualmente sobre la imagen cuando:
+        // - el scroll supera el top del card (el card ya entró bajo el nav)
+        // - y aún no hemos pasado el fondo del card
+        const navOverCard = scrollY >= cardTop - navH && scrollY < cardBottom - navH;
+
+        if (navOverCard) {
+          nav.classList.add('nav-hero');
+        } else {
+          nav.classList.remove('nav-hero');
+        }
+      }
+
+      // Fondo glassmorphism: se activa en cuanto hay cualquier scroll
+      if (scrollY > 10) {
         nav.classList.add('scrolled');
       } else {
         nav.classList.remove('scrolled');
       }
-
-      // Texto blanco solo mientras el nav está sobre el hero
-      if (scrollY < heroBottom - nav.offsetHeight) {
-        nav.classList.add('nav-hero');
-      } else {
-        nav.classList.remove('nav-hero');
-      }
     }
 
-    // Inicializar estado correcto al cargar (sin esperar el primer scroll)
+    // Ejecutar al cargar para establecer el estado correcto sin esperar scroll
     updateNav();
 
     window.addEventListener('scroll', updateNav, { passive: true });
