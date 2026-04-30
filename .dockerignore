@@ -1,0 +1,37 @@
+# ─────────────────────────────────────────────────────────────
+# .dockerignore — Archivos que NUNCA deben entrar a la imagen Docker.
+# Aunque el Dockerfile ya hace COPY selectivo, esto es una segunda
+# capa de defensa: si alguien cambia el Dockerfile a "COPY . .",
+# estos archivos siguen excluidos.
+# ─────────────────────────────────────────────────────────────
+
+# Control de versiones
+.git
+.gitignore
+.gitattributes
+
+# Configuración Docker (no necesita estar dentro de sí misma)
+Dockerfile
+.dockerignore
+
+# Variables de entorno y secretos
+.env
+.env.*
+*.pem
+*.key
+*.cert
+
+# Archivos de sistema y editores
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Documentación
+*.md
+README*
+
+# Logs
+*.log

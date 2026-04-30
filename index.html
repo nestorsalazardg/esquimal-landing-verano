@@ -6,6 +6,26 @@
   <title>Esquimal - Verano 2026 | Respira el Verano</title>
 
   <!-- ================================================
+       CABECERAS DE SEGURIDAD (capa HTML)
+       Estas meta-etiquetas actúan como respaldo cuando la página
+       se sirve desde un CDN o plataforma que no permite configurar
+       cabeceras HTTP personalizadas. La protección principal viene
+       del nginx.conf, pero esta es la segunda línea de defensa.
+       ================================================ -->
+
+  <!-- X-Content-Type-Options: el navegador no "adivina" tipos de archivo -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+  <!-- Referrer-Policy: no filtra rutas internas a dominios externos -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- X-Frame-Options via CSP frame-ancestors (más moderno que la cabecera) -->
+  <meta http-equiv="Content-Security-Policy"
+        content="frame-ancestors 'self';
+                 object-src 'none';
+                 base-uri 'self';">
+
+  <!-- ================================================
        META PIXEL — Reemplaza TU_PIXEL_ID con tu ID real
        ================================================ -->
   <script>
@@ -38,9 +58,19 @@
   </script>
   <!-- FIN GA4 -->
   <meta name="description" content="Descubre la coleccion de verano 2026 de Esquimal, Cookify y Real Textil. Ropa de cama premium, ventiladores de diseno y articulos de cocina.">
+  <!--
+    Google Fonts: se usa crossorigin en preconnect porque la fuente
+    se descarga desde un dominio distinto (fonts.gstatic.com).
+    Sin crossorigin el navegador haría dos conexiones en vez de una.
+    No se puede agregar SRI aquí porque Google Fonts genera URLs
+    dinámicas según el User-Agent del navegador. La CSP de nginx.conf
+    ya restringe que solo se carguen fuentes desde fonts.gstatic.com.
+  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+        crossorigin="anonymous">
   <style>
     /* ========================================
        CSS RESET & VARIABLES
