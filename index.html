@@ -416,25 +416,31 @@
     }
 
     /* Contenedor del player de YouTube.
-       Lleva overflow: hidden para recortar el video escalado. */
+       Usamos Grid para garantizar que el contenido esté siempre centrado
+       independientemente del tamaño del iframe. */
     #ytPlayer {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
-      opacity: 0;
-      transition: opacity 0.8s ease;
+      display: grid;
+      place-items: center;
       z-index: 0;
     }
 
-    /* YouTube iframe: 
-       Posicionamiento absoluto puro. El tamaño y la posición (top/left)
-       se calculan en JS para simular object-fit: cover. */
+    /* YouTube iframe:
+       Se posiciona absolutamente en el centro.
+       El transform translate(-50%, -50%) junto con top/left 50%
+       es el estándar para centrar elementos de tamaño dinámico. */
     .hero-video-wrapper iframe {
       position: absolute;
+      top: 50%;
+      left: 50%;
       border: none;
       pointer-events: none;
+      /* El scale(1.1) es el truco final para empujar las barras negras
+         internas de YouTube fuera del área visible del contenedor. */
     }
 
     /* YouTube iframe — tamaño y posición calculados 100% por JS.
@@ -1671,20 +1677,55 @@
 
       var W = container.offsetWidth;
       var H = container.offsetHeight;
-
-      // Ratio estándar de YouTube
       var ratio = 16 / 9;
+
       var iframeW, iframeH;
 
       if (W / H > ratio) {
-        // Contenedor más ancho que el video → anclamos al ancho
+        // Contenedor más ancho que 16:9 -> anclar al ancho
         iframeW = W;
         iframeH = W / ratio;
       } else {
-        // Contenedor más alto que el video → anclamos al alto
+        // Contenedor más alto que 16:9 -> anclar al alto
         iframeH = H;
         iframeW = H * ratio;
       }
+
+      // Aplicamos dimensiones y el transform de centrado + escala de seguridad
+      iframe.style.width  = iframeW + 'px';
+      iframe.style.height = iframeH + 'px';
+      iframe.style.transform = 'translate(-50%, -50%) scale(1.1)';
+    }
+
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('ytPlayer', {
+        videoId: 'GCMZEAN60sI',
+        playerVars: {
+          autoplay:       1,
+          mute:           1,
+          loop:           1,
+          playlist:       'GCMZEAN60sI',
+          controls:       0,
+          showinfo:       0,
+          rel:            0,
+          modestbranding: 1,
+          iv_load_policy: 3,
+          playsinline:    1,
+          disablekb:      1,
+          fs:             0
+        },
+        events: {
+          onReady: function(e) {
+            e.target.mute();
+            e.target.playVideo();
+            resizeYTPlayer();
+          },
+          onError: function() {
+            showVideoFallback();
+          }
+        }
+      });
+    }
 
       // MARGEN DE SEGURIDAD (10%) para evitar barras negras internas de YT
       iframeW *= 1.1;
