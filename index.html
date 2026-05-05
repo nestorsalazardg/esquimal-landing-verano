@@ -1661,17 +1661,11 @@
       var W = container.offsetWidth;
       var H = container.offsetHeight;
 
-      var iframeW, iframeH;
-
-      if (W / H > 16 / 9) {
-        // Contenedor más ancho que 16:9 → anclar al ancho
-        iframeW = W;
-        iframeH = Math.round(W * 9 / 16);
-      } else {
-        // Contenedor más alto que 16:9 → anclar a la altura
-        iframeH = H;
-        iframeW = Math.round(H * 16 / 9);
-      }
+      // SIEMPRE anclar al ancho: el video será más alto que el contenedor
+      // y se cortará arriba/abajo (como object-fit: cover).
+      // Esto evita barras negras a los lados.
+      var iframeW = W;
+      var iframeH = Math.round(W * 9 / 16);
 
       // Centrar con top/left negativos exactos — sin transform
       var top  = -Math.round((iframeH - H) / 2);
