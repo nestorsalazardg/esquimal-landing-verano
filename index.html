@@ -1649,9 +1649,6 @@
       if (wrapper) wrapper.style.display = 'none';
     }
 
-    // Calcula el tamaño exacto del iframe para cubrir el contenedor
-    // como object-fit: cover, y lo centra con coordenadas negativas exactas
-    // (sin transform, que falla cuando el padre tiene overflow:hidden).
     function resizeYTPlayer() {
       var container = document.getElementById('ytPlayer');
       if (!container) return;
@@ -1665,13 +1662,13 @@
       var iframeW, iframeH, top, left;
 
       if (isMobile) {
-        // Móvil: anclar a la altura — el video es más ancho, se recorta a los lados
+        // Móvil: anclar a la altura
         iframeH = H;
         iframeW = Math.round(H * 16 / 9);
         left = -Math.round((iframeW - W) / 2);
         top = 0;
       } else {
-        // Escritorio: anclar al ancho — el video es más alto, se recorta arriba/abajo
+        // Escritorio: anclar al ancho
         iframeW = W;
         iframeH = Math.round(W * 9 / 16);
         top = -Math.round((iframeH - H) / 2);
@@ -1705,18 +1702,9 @@
           onReady: function(e) {
             e.target.mute();
             e.target.playVideo();
-            // Calcular tamaño correcto antes de hacer visible el iframe
             resizeYTPlayer();
-            document.getElementById('ytPlayer').style.opacity = '1';
-          },
-          onStateChange: function(e) {
-            if (e.data === YT.PlayerState.UNSTARTED) {
-              setTimeout(function() {
-                if (ytPlayer && ytPlayer.getPlayerState() === YT.PlayerState.UNSTARTED) {
-                  showVideoFallback();
-                }
-              }, 3000);
-            }
+            var p = document.getElementById('ytPlayer');
+            if (p) p.style.opacity = '1';
           },
           onError: function() {
             showVideoFallback();
@@ -1725,7 +1713,6 @@
       });
     }
 
-    // Recalcular tamaño del iframe en cada resize de ventana
     window.addEventListener('resize', resizeYTPlayer, { passive: true });
 
     // ---- NAV SCROLL EFFECT ----
