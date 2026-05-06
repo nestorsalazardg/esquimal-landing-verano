@@ -57,7 +57,7 @@
     gtag('config', 'TU_GA4_ID');
   </script>
   <!-- FIN GA4 -->
-  <meta name="description" content="Descubre la coleccion de verano 2026 de Esquimal, Cookify y Real Textil. Ropa de cama premium, ventiladores de diseno y articulos de cocina.">
+  <meta name="description" content="Descubre la colección de verano 2026 de Esquimal, Cookify y Real Textil. Ropa de cama premium, ventiladores de diseño y artículos de cocina.">
   <!--
     Google Fonts: se usa crossorigin en preconnect porque la fuente
     se descarga desde un dominio distinto (fonts.gstatic.com).
@@ -415,44 +415,7 @@
       object-fit: cover;
     }
 
-    /* Contenedor del player de YouTube generado por la API.
-       - overflow: hidden contiene el iframe sobredimensionado
-       - opacity: 0 lo mantiene invisible hasta que el video esté listo
-       - transition hace el fade-in suave cuando onReady lo activa */
-    #ytPlayer {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
-
-    /* YouTube iframe — tamaño y posición calculados 100% por JS.
-       NO usamos top/left/transform aquí porque overflow:hidden en el padre
-       hace que translate(-50%,-50%) calcule mal el desplazamiento.
-       JS posiciona con coordenadas negativas exactas. */
-    .hero-video-wrapper iframe {
-      position: absolute;
-      border: none;
-      pointer-events: none;
-    }
-
-    .hero-video-wrapper::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(27, 33, 56, 0.05) 0%,
-        rgba(27, 33, 56, 0.15) 40%,
-        rgba(27, 33, 56, 0.35) 100%
-      );
-      z-index: 1;
-    }
-
-    /* Fallback image behind video */
+    /* Contenedor de imagen de respaldo y principal */
     .hero-fallback {
       position: absolute;
       inset: 0;
@@ -466,6 +429,19 @@
       inset: 0;
       background: url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1600&q=80') center/cover no-repeat;
       opacity: 0.9;
+    }
+
+    .hero-fallback::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(27, 33, 56, 0.05) 0%,
+        rgba(27, 33, 56, 0.15) 40%,
+        rgba(27, 33, 56, 0.35) 100%
+      );
+      z-index: 1;
     }
 
     .hero-content {
@@ -1286,16 +1262,12 @@
   <section class="hero">
     <div class="hero-card">
       <div class="hero-fallback"></div>
-      <div class="hero-video-wrapper">
-        <!-- YouTube IFrame API player — injected by JS below -->
-        <div id="ytPlayer"></div>
-      </div>
       <div class="hero-content">
         <h1 class="hero-title">Respira el Verano</h1>
-        <p class="hero-desc">Descubre la colección perfecta para dias mas frescos y noches mas ligeras.</p>
+        <p class="hero-desc">Descubre la colección perfecta para días más frescos y noches más ligeras.</p>
         <a href="#esquimal" class="btn-hero"
            onclick="fbq('track','ViewContent',{content_name:'Hero - Descubrir Coleccion',content_category:'Landing Hero'}); gtag('event','view_item_list',{item_list_name:'Hero CTA'});">
-          Descubrir Coleccion
+          Descubrir Colección
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="m9 18 6-6-6-6"/>
           </svg>
@@ -1318,9 +1290,9 @@
   <section class="section slider-section" id="esquimal">
     <div class="container">
       <div class="section-header">
-        <div class="brand-tag reveal">Coleccion Verano 2026</div>
+        <div class="brand-tag reveal">Colección Verano 2026</div>
         <h2 class="section-label reveal">Esquimal</h2>
-        <p class="section-subtitle reveal">Ropa de cama disenada para el descanso perfecto</p>
+        <p class="section-subtitle reveal">Ropa de cama diseñada para el descanso perfecto</p>
       </div>
 
       <div class="slider-wrapper reveal">
@@ -1329,14 +1301,14 @@
           <div class="product-card">
             <div class="product-img">
               <span class="product-badge">Nuevo</span>
-              <img src="https://images.unsplash.com/photo-1629140727571-9b5c6f6267b4?w=600&q=80" alt="Sabanas de Algodon Premium" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1629140727571-9b5c6f6267b4?w=600&q=80" alt="Sábanas de Algodón Premium" loading="lazy">
             </div>
             <div class="product-info">
-              <span class="product-name">Sabanas de Algodon Premium</span>
+              <span class="product-name">Sábanas de Algodón Premium</span>
               <div class="product-bottom">
                 <span class="product-price">$79.99</span>
                 <a href="#" class="btn-primary"
-                   onclick="fbq('track','AddToCart',{content_name:'Sabanas de Algodon Premium',content_category:'Ropa de Cama',value:79.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:79.99,items:[{item_name:'Sabanas de Algodon Premium',item_category:'Ropa de Cama',price:79.99}]});">Comprar</a>
+                   onclick="fbq('track','AddToCart',{content_name:'Sábanas de Algodón Premium',content_category:'Ropa de Cama',value:79.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:79.99,items:[{item_name:'Sabanas de Algodon Premium',item_category:'Ropa de Cama',price:79.99}]});">Comprar</a>
               </div>
             </div>
           </div>
@@ -1345,14 +1317,14 @@
           <div class="product-card">
             <div class="product-img">
               <span class="product-badge">Bestseller</span>
-              <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=600&q=80" alt="Edredon Ligero de Verano" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=600&q=80" alt="Edredón Ligero de Verano" loading="lazy">
             </div>
             <div class="product-info">
-              <span class="product-name">Edredon Ligero de Verano</span>
+              <span class="product-name">Edredón Ligero de Verano</span>
               <div class="product-bottom">
                 <span class="product-price">$129.99</span>
                 <a href="#" class="btn-primary"
-                   onclick="fbq('track','AddToCart',{content_name:'Edredon Ligero de Verano',content_category:'Ropa de Cama',value:129.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:129.99,items:[{item_name:'Edredon Ligero de Verano',item_category:'Ropa de Cama',price:129.99}]});">Comprar</a>
+                   onclick="fbq('track','AddToCart',{content_name:'Edredón Ligero de Verano',content_category:'Ropa de Cama',value:129.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:129.99,items:[{item_name:'Edredon Ligero de Verano',item_category:'Ropa de Cama',price:129.99}]});">Comprar</a>
               </div>
             </div>
           </div>
@@ -1360,14 +1332,14 @@
           <!-- Product 3 -->
           <div class="product-card">
             <div class="product-img">
-              <img src="https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=600&q=80" alt="Almohada de Bambu Fresca" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=600&q=80" alt="Almohada de Bambú Fresca" loading="lazy">
             </div>
             <div class="product-info">
-              <span class="product-name">Almohada de Bambu Fresca</span>
+              <span class="product-name">Almohada de Bambú Fresca</span>
               <div class="product-bottom">
                 <span class="product-price">$49.99</span>
                 <a href="#" class="btn-primary"
-                   onclick="fbq('track','AddToCart',{content_name:'Almohada de Bambu Fresca',content_category:'Ropa de Cama',value:49.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:49.99,items:[{item_name:'Almohada de Bambu Fresca',item_category:'Ropa de Cama',price:49.99}]});">Comprar</a>
+                   onclick="fbq('track','AddToCart',{content_name:'Almohada de Bambú Fresca',content_category:'Ropa de Cama',value:49.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:49.99,items:[{item_name:'Almohada de Bambu Fresca',item_category:'Ropa de Cama',price:49.99}]});">Comprar</a>
               </div>
             </div>
           </div>
@@ -1405,14 +1377,14 @@
           <!-- Product 6 -->
           <div class="product-card">
             <div class="product-img">
-              <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&q=80" alt="Protector de Colchon Cool" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&q=80" alt="Protector de Colchón Cool" loading="lazy">
             </div>
             <div class="product-info">
-              <span class="product-name">Protector de Colchon Cool</span>
+              <span class="product-name">Protector de Colchón Cool</span>
               <div class="product-bottom">
                 <span class="product-price">$59.99</span>
                 <a href="#" class="btn-primary"
-                   onclick="fbq('track','AddToCart',{content_name:'Protector de Colchon Cool',content_category:'Ropa de Cama',value:59.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:59.99,items:[{item_name:'Protector de Colchon Cool',item_category:'Ropa de Cama',price:59.99}]});">Comprar</a>
+                   onclick="fbq('track','AddToCart',{content_name:'Protector de Colchón Cool',content_category:'Ropa de Cama',value:59.99,currency:'USD'}); gtag('event','add_to_cart',{currency:'USD',value:59.99,items:[{item_name:'Protector de Colchon Cool',item_category:'Ropa de Cama',price:59.99}]});">Comprar</a>
               </div>
             </div>
           </div>
@@ -1446,7 +1418,7 @@
       <div class="section-header">
         <div class="brand-tag reveal">Esquimal</div>
         <h2 class="section-label reveal">Control de Clima</h2>
-        <p class="section-subtitle reveal">Ventiladores de diseno para cada espacio de tu hogar</p>
+        <p class="section-subtitle reveal">Ventiladores de diseño para cada espacio de tu hogar</p>
       </div>
 
       <div class="climate-grid">
@@ -1457,7 +1429,7 @@
           </div>
           <div class="climate-info">
             <span class="climate-name">Ventilador de Torre</span>
-            <span class="climate-desc">Diseno minimalista y silencioso</span>
+            <span class="climate-desc">Diseño minimalista y silencioso</span>
             <a href="#" class="btn-outline">Ver Detalles</a>
           </div>
         </div>
@@ -1469,7 +1441,7 @@
           </div>
           <div class="climate-info">
             <span class="climate-name">Ventilador de Piso</span>
-            <span class="climate-desc">Potente y eficiente en energia</span>
+            <span class="climate-desc">Potente y eficiente en energía</span>
             <a href="#" class="btn-outline">Ver Detalles</a>
           </div>
         </div>
@@ -1510,7 +1482,7 @@
           </div>
           <div class="cookify-info">
             <span class="cookify-name">Parrillas & Asadores</span>
-            <span class="cookify-desc">Hierro fundido de alta durabilidad para las mejores parrilladas de verano. Diseno profesional para resultados excepcionales.</span>
+            <span class="cookify-desc">Hierro fundido de alta durabilidad para las mejores parrilladas de verano. Diseño profesional para resultados excepcionales.</span>
             <a href="#" class="btn-primary btn-arrow"
                onclick="fbq('track','ViewContent',{content_name:'Cookify - Parrillas y Asadores',content_category:'Cookify'}); gtag('event','view_item',{items:[{item_name:'Parrillas y Asadores',item_category:'Cookify'}]});">Explorar</a>
           </div>
@@ -1524,9 +1496,9 @@
           <div class="cookify-info">
             <span class="cookify-sub">Utensilios Frescos</span>
             <span class="cookify-name">Todo lo que Necesitas</span>
-            <span class="cookify-desc">Completa tu cocina de verano con nuestra seleccion curada de ralladores, cuchillos y utensilios premium.</span>
+            <span class="cookify-desc">Completa tu cocina de verano con nuestra selección curada de ralladores, cuchillos y utensilios premium.</span>
             <a href="#" class="btn-outline btn-arrow"
-               onclick="fbq('track','ViewContent',{content_name:'Cookify - Utensilios',content_category:'Cookify'}); gtag('event','view_item_list',{item_list_name:'Cookify Utensilios'});">Ver Articulos de Cocina</a>
+               onclick="fbq('track','ViewContent',{content_name:'Cookify - Utensilios',content_category:'Cookify'}); gtag('event','view_item_list',{item_list_name:'Cookify Utensilios'});">Ver Artículos de Cocina</a>
           </div>
         </div>
       </div>
@@ -1543,7 +1515,7 @@
       <div class="section-header">
         <div class="brand-tag reveal">Real Textil</div>
         <h2 class="section-label reveal">Real Textil</h2>
-        <p class="section-subtitle reveal">Diseno premium, precio accesible</p>
+        <p class="section-subtitle reveal">Diseño premium, precio accesible</p>
       </div>
 
       <div class="realtextil-grid">
@@ -1554,7 +1526,7 @@
           </div>
           <div class="realtextil-info">
             <span class="realtextil-name">Textiles para el Hogar</span>
-            <span class="realtextil-desc">Calidad excepcional en cada fibra. Nuestros textiles combinan diseno contemporaneo con materiales de primera clase, al alcance de todos.</span>
+            <span class="realtextil-desc">Calidad excepcional en cada fibra. Nuestros textiles combinan diseño contemporáneo con materiales de primera clase, al alcance de todos.</span>
             <a href="#" class="btn-primary btn-arrow"
                onclick="fbq('track','ViewContent',{content_name:'Real Textil - Textiles para el Hogar',content_category:'Real Textil'}); gtag('event','view_item',{items:[{item_name:'Textiles para el Hogar',item_category:'Real Textil'}]});">Descubrir Real Textil</a>
           </div>
@@ -1563,13 +1535,13 @@
         <!-- Card 2 -->
         <div class="realtextil-card reveal reveal-delay-2">
           <div class="realtextil-img">
-            <img src="https://images.unsplash.com/photo-1586105251261-72a756497a11?w=700&q=80" alt="Coleccion Lino" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1586105251261-72a756497a11?w=700&q=80" alt="Colección Lino" loading="lazy">
           </div>
           <div class="realtextil-info">
-            <span class="realtextil-name">Coleccion Lino</span>
-            <span class="realtextil-desc">Frescura natural y elegancia atemporal. Cada pieza esta disenada para transformar tu espacio con un estilo artesanal unico.</span>
+            <span class="realtextil-name">Colección Lino</span>
+            <span class="realtextil-desc">Frescura natural y elegancia atemporal. Cada pieza está diseñada para transformar tu espacio con un estilo artesanal único.</span>
             <a href="#" class="btn-outline btn-arrow"
-               onclick="fbq('track','ViewContent',{content_name:'Real Textil - Coleccion Lino',content_category:'Real Textil'}); gtag('event','view_item_list',{item_list_name:'Real Textil Coleccion Lino'});">Ver Coleccion</a>
+               onclick="fbq('track','ViewContent',{content_name:'Real Textil - Coleccion Lino',content_category:'Real Textil'}); gtag('event','view_item_list',{item_list_name:'Real Textil Coleccion Lino'});">Ver Colección</a>
           </div>
         </div>
       </div>
@@ -1589,7 +1561,7 @@
               <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>
             </svg>
           </div>
-          <span class="trust-title">Envio Rapido</span>
+          <span class="trust-title">Envío Rápido</span>
           <span class="trust-desc">Entrega en 24-48h</span>
         </div>
 
@@ -1601,7 +1573,7 @@
             </svg>
           </div>
           <span class="trust-title">Pago Seguro</span>
-          <span class="trust-desc">Proteccion garantizada</span>
+          <span class="trust-desc">Protección garantizada</span>
         </div>
 
         <!-- Returns -->
@@ -1612,7 +1584,7 @@
             </svg>
           </div>
           <span class="trust-title">Devoluciones</span>
-          <span class="trust-desc">30 dias sin preguntas</span>
+          <span class="trust-desc">30 días sin preguntas</span>
         </div>
 
         <!-- Support -->
@@ -1623,7 +1595,7 @@
             </svg>
           </div>
           <span class="trust-title">Soporte 24/7</span>
-          <span class="trust-desc">Siempre aqui para ti</span>
+          <span class="trust-desc">Siempre aquí para ti</span>
         </div>
       </div>
 
@@ -1637,97 +1609,7 @@
        JAVASCRIPT
        ======================================== -->
 
-  <!-- YouTube IFrame API: cargado de forma asíncrona -->
-  <script src="https://www.youtube.com/iframe_api"></script>
-
   <script>
-    // ---- YOUTUBE IFRAME API ----
-    var ytPlayer;
-
-    function showVideoFallback() {
-      var wrapper = document.querySelector('.hero-video-wrapper');
-      if (wrapper) wrapper.style.display = 'none';
-    }
-
-    // Calcula el tamaño exacto del iframe para cubrir el contenedor
-    // como object-fit: cover, y lo centra con coordenadas negativas exactas
-    // (sin transform, que falla cuando el padre tiene overflow:hidden).
-    function resizeYTPlayer() {
-      var container = document.getElementById('ytPlayer');
-      if (!container) return;
-      var iframe = container.querySelector('iframe');
-      if (!iframe) return;
-
-      var W = container.offsetWidth;
-      var H = container.offsetHeight;
-      var isMobile = window.innerWidth <= 768;
-
-      var iframeW, iframeH, top, left;
-
-      if (isMobile) {
-        // Móvil: anclar a la altura — el video es más ancho, se recorta a los lados
-        iframeH = H;
-        iframeW = Math.round(H * 16 / 9);
-        left = -Math.round((iframeW - W) / 2);
-        top = 0;
-      } else {
-        // Escritorio: anclar al ancho — el video es más alto, se recorta arriba/abajo
-        iframeW = W;
-        iframeH = Math.round(W * 9 / 16);
-        top = -Math.round((iframeH - H) / 2);
-        left = 0;
-      }
-
-      iframe.style.width  = iframeW + 'px';
-      iframe.style.height = iframeH + 'px';
-      iframe.style.top    = top  + 'px';
-      iframe.style.left   = left + 'px';
-    }
-
-    function onYouTubeIframeAPIReady() {
-      ytPlayer = new YT.Player('ytPlayer', {
-        videoId: 'GCMZEAN60sI',
-        playerVars: {
-          autoplay:       1,
-          mute:           1,
-          loop:           1,
-          playlist:       'GCMZEAN60sI',
-          controls:       0,
-          showinfo:       0,
-          rel:            0,
-          modestbranding: 1,
-          iv_load_policy: 3,
-          playsinline:    1,
-          disablekb:      1,
-          fs:             0
-        },
-        events: {
-          onReady: function(e) {
-            e.target.mute();
-            e.target.playVideo();
-            // Calcular tamaño correcto antes de hacer visible el iframe
-            resizeYTPlayer();
-            document.getElementById('ytPlayer').style.opacity = '1';
-          },
-          onStateChange: function(e) {
-            if (e.data === YT.PlayerState.UNSTARTED) {
-              setTimeout(function() {
-                if (ytPlayer && ytPlayer.getPlayerState() === YT.PlayerState.UNSTARTED) {
-                  showVideoFallback();
-                }
-              }, 3000);
-            }
-          },
-          onError: function() {
-            showVideoFallback();
-          }
-        }
-      });
-    }
-
-    // Recalcular tamaño del iframe en cada resize de ventana
-    window.addEventListener('resize', resizeYTPlayer, { passive: true });
-
     // ---- NAV SCROLL EFFECT ----
     const nav = document.getElementById('mainNav');
     // Medimos desde .hero-card (el elemento con la imagen/video),
