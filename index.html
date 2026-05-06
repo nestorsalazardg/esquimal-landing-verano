@@ -415,32 +415,18 @@
       object-fit: cover;
     }
 
-    /* Contenedor del player de YouTube.
-       Usamos Grid para garantizar que el contenido esté siempre centrado
-       independientemente del tamaño del iframe. */
+    /* Contenedor del player de YouTube generado por la API.
+       - overflow: hidden contiene el iframe sobredimensionado
+       - opacity: 0 lo mantiene invisible hasta que el video esté listo
+       - transition hace el fade-in suave cuando onReady lo activa */
     #ytPlayer {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
-      display: grid;
-      place-items: center;
-      z-index: 0;
-    }
-
-    /* YouTube iframe:
-       Se posiciona absolutamente en el centro.
-       El transform translate(-50%, -50%) junto con top/left 50%
-       es el estándar para centrar elementos de tamaño dinámico. */
-    .hero-video-wrapper iframe {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      border: none;
-      pointer-events: none;
-      /* El scale(1.1) es el truco final para empujar las barras negras
-         internas de YouTube fuera del área visible del contenedor. */
+      opacity: 0;
+      transition: opacity 0.8s ease;
     }
 
     /* YouTube iframe — tamaño y posición calculados 100% por JS.
@@ -1301,14 +1287,8 @@
     <div class="hero-card">
       <div class="hero-fallback"></div>
       <div class="hero-video-wrapper">
-        <iframe
-          id="ytPlayer"
-          src="https://www.youtube-nocookie.com/embed/GCMZEAN60sI?autoplay=1&mute=1&loop=1&playlist=GCMZEAN60sI&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&enablejsapi=1"
-          title="Verano 2026 - Esquimal"
-          allow="autoplay; encrypted-media"
-          allowfullscreen
-          loading="lazy">
-        </iframe>
+        <!-- YouTube IFrame API player — injected by JS below -->
+        <div id="ytPlayer"></div>
       </div>
       <div class="hero-content">
         <h1 class="hero-title">Respira el Verano</h1>
@@ -1669,6 +1649,9 @@
       if (wrapper) wrapper.style.display = 'none';
     }
 
+    // Calcula el tamaño exacto del iframe para cubrir el contenedor
+    // como object-fit: cover, y lo centra con coordenadas negativas exactas
+    // (sin transform, que falla cuando el padre tiene overflow:hidden).
     function resizeYTPlayer() {
       var container = document.getElementById('ytPlayer');
       if (!container) return;
@@ -1677,63 +1660,23 @@
 
       var W = container.offsetWidth;
       var H = container.offsetHeight;
-      var ratio = 16 / 9;
+      var isMobile = window.innerWidth <= 768;
 
-      var iframeW, iframeH;
+      var iframeW, iframeH, top, left;
 
-      if (W / H > ratio) {
-        // Contenedor más ancho que 16:9 -> anclar al ancho
-        iframeW = W;
-        iframeH = W / ratio;
-      } else {
-        // Contenedor más alto que 16:9 -> anclar al alto
+      if (isMobile) {
+        // Móvil: anclar a la altura — el video es más ancho, se recorta a los lados
         iframeH = H;
-        iframeW = H * ratio;
+        iframeW = Math.round(H * 16 / 9);
+        left = -Math.round((iframeW - W) / 2);
+        top = 0;
+      } else {
+        // Escritorio: anclar al ancho — el video es más alto, se recorta arriba/abajo
+        iframeW = W;
+        iframeH = Math.round(W * 9 / 16);
+        top = -Math.round((iframeH - H) / 2);
+        left = 0;
       }
-
-      // Aplicamos dimensiones y el transform de centrado + escala de seguridad
-      iframe.style.width  = iframeW + 'px';
-      iframe.style.height = iframeH + 'px';
-      iframe.style.transform = 'translate(-50%, -50%) scale(1.1)';
-    }
-
-    function onYouTubeIframeAPIReady() {
-      ytPlayer = new YT.Player('ytPlayer', {
-        videoId: 'GCMZEAN60sI',
-        playerVars: {
-          autoplay:       1,
-          mute:           1,
-          loop:           1,
-          playlist:       'GCMZEAN60sI',
-          controls:       0,
-          showinfo:       0,
-          rel:            0,
-          modestbranding: 1,
-          iv_load_policy: 3,
-          playsinline:    1,
-          disablekb:      1,
-          fs:             0
-        },
-        events: {
-          onReady: function(e) {
-            e.target.mute();
-            e.target.playVideo();
-            resizeYTPlayer();
-          },
-          onError: function() {
-            showVideoFallback();
-          }
-        }
-      });
-    }
-
-      // MARGEN DE SEGURIDAD (10%) para evitar barras negras internas de YT
-      iframeW *= 1.1;
-      iframeH *= 1.1;
-
-      // Posicionamiento absoluto centrado (coordenadas negativas)
-      var top  = -Math.round((iframeH - H) / 2);
-      var left = -Math.round((iframeW - W) / 2);
 
       iframe.style.width  = iframeW + 'px';
       iframe.style.height = iframeH + 'px';
@@ -1762,9 +1705,18 @@
           onReady: function(e) {
             e.target.mute();
             e.target.playVideo();
+            // Calcular tamaño correcto antes de hacer visible el iframe
             resizeYTPlayer();
-            var p = document.getElementById('ytPlayer');
-            if (p) p.style.opacity = '1';
+            document.getElementById('ytPlayer').style.opacity = '1';
+          },
+          onStateChange: function(e) {
+            if (e.data === YT.PlayerState.UNSTARTED) {
+              setTimeout(function() {
+                if (ytPlayer && ytPlayer.getPlayerState() === YT.PlayerState.UNSTARTED) {
+                  showVideoFallback();
+                }
+              }, 3000);
+            }
           },
           onError: function() {
             showVideoFallback();
@@ -1773,10 +1725,13 @@
       });
     }
 
+    // Recalcular tamaño del iframe en cada resize de ventana
     window.addEventListener('resize', resizeYTPlayer, { passive: true });
 
     // ---- NAV SCROLL EFFECT ----
     const nav = document.getElementById('mainNav');
+    // Medimos desde .hero-card (el elemento con la imagen/video),
+    // NO desde .hero (que incluye el padding superior crema).
     const heroCard = document.querySelector('.hero-card');
 
     function updateNav() {
@@ -1784,8 +1739,13 @@
       const navH = nav.offsetHeight;
 
       if (heroCard) {
+        // Posición absoluta del top e inferior del hero-card
         const cardTop    = heroCard.getBoundingClientRect().top + scrollY;
         const cardBottom = cardTop + heroCard.offsetHeight;
+
+        // El nav está visualmente sobre la imagen cuando:
+        // - el scroll supera el top del card (el card ya entró bajo el nav)
+        // - y aún no hemos pasado el fondo del card
         const navOverCard = scrollY >= cardTop - navH && scrollY < cardBottom - navH;
 
         if (navOverCard) {
@@ -1795,6 +1755,7 @@
         }
       }
 
+      // Fondo glassmorphism: se activa en cuanto hay cualquier scroll
       if (scrollY > 10) {
         nav.classList.add('scrolled');
       } else {
@@ -1802,7 +1763,9 @@
       }
     }
 
+    // Ejecutar al cargar para establecer el estado correcto sin esperar scroll
     updateNav();
+
     window.addEventListener('scroll', updateNav, { passive: true });
 
     // ---- MOBILE MENU ----
