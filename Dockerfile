@@ -17,6 +17,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copiar archivos web al directorio público de Nginx
 COPY index.html /usr/share/nginx/html/index.html
+COPY css/ /usr/share/nginx/html/css/
+COPY js/ /usr/share/nginx/html/js/
 
 # ─────────────────────────────────────────────────────────────
 # SEGURIDAD: Ajustar permisos — el proceso de Nginx worker corre
